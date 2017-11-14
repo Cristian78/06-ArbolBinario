@@ -30,6 +30,12 @@ public:
 
     void postorder();
 
+    int contarporNivel(unsigned int);
+
+    void espejo();
+
+    bool compara(NodoArbol *);
+
     void print(bool esDerecho, string identacion) {
         if (der != NULL) {
             der->print(true, identacion + (esDerecho ? "     " : "|    "));
@@ -171,5 +177,35 @@ void NodoArbol<T>::postorder() {
     cout << dato << ", ";
 }
 
+template <class T>
+void NodoArbol<T>::espejo(){
+    NodoArbol *aux = izq;
+    izq = der;
+    der = aux;
+
+    if (izq != NULL)
+        izq->espejo();
+    if (der != NULL)
+        der->espejo();
+}
+
+template <class T>
+bool NodoArbol<T>::compara(NodoArbol *a) {
+    if (this->dato != a->getDato())
+        return false;
+    if (izq == NULL ^ a->izq == NULL)
+        return false;
+    if (der == NULL ^ a->der == NULL)
+        return false;
+
+    bool estizq = true, estder = true;
+
+    if (izq != NULL)
+        estizq = izq->compara(a->izq);
+    if (der != NULL)
+        estder = der->compara(a->der);
+
+    return estizq == estder;
+}
 
 #endif //HASHENTRY_H

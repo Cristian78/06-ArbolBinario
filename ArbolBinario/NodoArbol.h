@@ -207,5 +207,18 @@ bool NodoArbol<T>::compara(NodoArbol *a) {
 
     return estizq == estder;
 }
+template <class T>
+int NodoArbol<T>::contarporNivel(unsigned int L) {
+    if(L == 0)
+        return 1;
+    int x = 0;
+    if (izq !=NULL){
+        x += izq->contarporNivel(L-1);
+    }
+    if (der != NULL){
+        x += der->contarporNivel(L-1);
+    }
+    return x;
+}
 
 #endif //HASHENTRY_H
